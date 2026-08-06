@@ -2,7 +2,11 @@ import { useAppDispatch } from '../store/hooks';
 import { addTask } from '../features/tasks/tasksSlice';
 import type { TaskStatus } from '../features/tasks/tasksSlice';
 
-const TaskForm = () => {
+interface TaskFormProps {
+    handleClose: () => void;
+}
+
+const TaskForm = ({ handleClose }: TaskFormProps) => {
     const dispatch = useAppDispatch();
 
     const handleAddTask = (formData: FormData) => {
@@ -13,11 +17,19 @@ const TaskForm = () => {
 
         const newTask = { id, title, description, status };
 
+        if (!title) {
+            return;
+        }
         dispatch(addTask(newTask));
+        handleClose();
+    };
+
+    const handleCloseFormModal = () => {
+        handleClose();
     };
 
     return (
-        <form action={handleAddTask}>
+        <form action={(e) => handleAddTask(e)}>
             <div>
                 <label htmlFor="task-title">Tytuł zadania</label>
 
@@ -41,7 +53,9 @@ const TaskForm = () => {
             </div>
 
             <div>
-                <button type="button">Anuluj</button>
+                <button type="button" onClick={handleCloseFormModal}>
+                    Anuluj
+                </button>
 
                 <button type="submit">Dodaj zadanie</button>
             </div>

@@ -10,7 +10,7 @@ interface TaskModalProps {
 const TaskModal = ({ isOpen, onClose }: TaskModalProps) => {
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
-            <TaskForm />
+            <TaskForm handleClose={onClose} />
         </Modal>
     );
 };
