@@ -1,32 +1,52 @@
-// import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
-// export type TaskStatus = 'todo' | 'inProgress' | 'done';
+export type TaskStatus = 'todo' | 'inProgress' | 'done';
 
-// export interface Task {
-//   id: string;
-//   title: string;
-//   description: string;
-//   status: TaskStatus;
-// }
+export interface Task {
+    id: number;
+    title: string;
+    description: string;
+    status: TaskStatus;
+}
 
-// interface TasksState {
-//   tasks: Task[];
-// }
+interface TaskState {
+    tasks: Task[];
+}
 
-// const initialState: TasksState = {
-//     tasks: [],
-// };
+const initialState: TaskState = {
+    tasks: [
+        {
+            id: 1,
+            title: 'task-1',
+            description: 'task 1 description',
+            status: 'todo',
+        },
+        {
+            id: 2,
+            title: 'task-2',
+            description: 'task 2 description',
+            status: 'inProgress',
+        },
+        {
+            id: 3,
+            title: 'task-3',
+            description: 'task 3 description',
+            status: 'done',
+        },
+    ],
+};
 
-// const tasksSlice = createSlice({
-//     name: 'tasks',
-//     initialState,
-//     reducers: {
-//         addTask: (state, action: PayloadAction<Task>) => {
-//             state.tasks.push(action.payload);
-//         },
-//     },
-// });
+const taskSlice = createSlice({
+    name: 'tasks',
+    initialState: initialState,
+    reducers: {
+        addTask: (state, action: PayloadAction<Task>) => {
+            state.tasks.push(action.payload);
+        },
+    },
+});
 
-// export const { addTask } = tasksSlice.actions;
+export const { addTask } = taskSlice.actions;
 
-// export default tasksSlice.reducer;
+export default taskSlice.reducer;
