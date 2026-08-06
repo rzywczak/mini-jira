@@ -5,9 +5,10 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
+  className?: string;
 }
 
-const Modal = ({ isOpen, onClose, children }: ModalProps) => {
+const Modal = ({ isOpen, onClose, children, className }: ModalProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -30,6 +31,7 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
     <dialog
       ref={dialogRef}
       onClose={onClose}
+      className={className}
     >
       {children}
     </dialog>

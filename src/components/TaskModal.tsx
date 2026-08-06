@@ -1,6 +1,6 @@
-import React from 'react';
 import Modal from './Modal';
 import TaskForm from './TaskForm';
+import './TaskModal.scss';
 
 interface TaskModalProps {
     isOpen: boolean;
@@ -9,7 +9,7 @@ interface TaskModalProps {
 
 const TaskModal = ({ isOpen, onClose }: TaskModalProps) => {
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={onClose} className="task-modal">
             <TaskForm handleClose={onClose} />
         </Modal>
     );
