@@ -24,12 +24,7 @@ const Board = () => {
 
             <div className="board__columns">
                 {columns.map((column) => (
-                    <Column
-                        key={column.status}
-                        status={column.status}
-                        title={column.title}
-                        tasks={tasks.filter((task) => task.status === column.status)}
-                    />
+                    <Column key={column.status} status={column.status} title={column.title} tasks={tasks.filter((task) => task.status === column.status)} />
                 ))}
             </div>
         </section>

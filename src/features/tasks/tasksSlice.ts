@@ -4,7 +4,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 export type TaskStatus = 'todo' | 'inProgress' | 'done';
 
 export interface Task {
-    id: number;
+    id: string;
     title: string;
     description: string;
     status: TaskStatus;
@@ -17,19 +17,19 @@ interface TaskState {
 const initialState: TaskState = {
     tasks: [
         {
-            id: 1,
+            id: '1',
             title: 'task-1',
             description: 'task 1 description',
             status: 'todo',
         },
         {
-            id: 2,
+            id: '2',
             title: 'task-2',
             description: 'task 2 description',
             status: 'inProgress',
         },
         {
-            id: 3,
+            id: '3',
             title: 'task-3',
             description: 'task 3 description',
             status: 'done',
