@@ -22,6 +22,10 @@ const TaskCard = ({ task, onUpdateTask: handleOnUpdateTask }: TaskCardProps) => 
     };
 
     const handleDeleteTask = () => {
+        if (!window.confirm(`Czy usunąć zadanie „${task.title}”?`)) {
+            return;
+        }
+
         dispatch(
             deleteTask({
                 id: task.id,

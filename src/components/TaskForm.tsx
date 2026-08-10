@@ -35,7 +35,6 @@ const TaskForm = ({ handleClose, isEditingTask: task }: TaskFormProps) => {
         if (!task) return;
 
         const updatedTask = { id: task.id, title, description, status };
-        console.log(updatedTask);
         if (!title) {
             return;
         }
@@ -48,9 +47,9 @@ const TaskForm = ({ handleClose, isEditingTask: task }: TaskFormProps) => {
         <form className="task-form" action={task ? handleEditTask : handleAddTask}>
             <div className="task-form__header">
                 <div>
-                    <p className="task-form__eyebrow">Nowe zadanie</p>
-                    <h2>Dodaj zadanie do tablicy</h2>
-                    <p className="task-form__description">Uzupełnij podstawowe informacje i wybierz status.</p>
+                    <p className="task-form__eyebrow"> {task ? 'Edytuj zadanie' : 'Nowe zadanie'}</p>
+                    <h2> {task ? 'Zmodyfikuj zadanie dodane do tablicy' : 'Dodaj zadanie do tablicy'}</h2>
+                    <p className="task-form__description"> {task ? '' : 'Dodaj podstawowe informacje i wybierz status'}</p>
                 </div>
 
                 <button className="task-form__close" type="button" onClick={handleClose} aria-label="Zamknij formularz">
