@@ -1,13 +1,14 @@
 import { useAppDispatch } from '../store/hooks';
-import { addTask } from '../features/tasks/tasksSlice';
-import type { TaskStatus } from '../features/tasks/tasksSlice';
+import { addTask, updateTask } from '../features/tasks/tasksSlice';
+import type { Task, TaskStatus } from '../features/tasks/tasksSlice';
 import './TaskForm.scss';
 
 interface TaskFormProps {
     handleClose: () => void;
+    isEditingTask: Task | null;
 }
 
-const TaskForm = ({ handleClose }: TaskFormProps) => {
+const TaskForm = ({ handleClose, isEditingTask: task }: TaskFormProps) => {
     const dispatch = useAppDispatch();
 
     const handleAddTask = (formData: FormData) => {
@@ -26,8 +27,25 @@ const TaskForm = ({ handleClose }: TaskFormProps) => {
         handleClose();
     };
 
+    const handleEditTask = (formData: FormData) => {
+        const title = String(formData.get('title')).trim();
+        const description = String(formData.get('description')).trim();
+        const status = String(formData.get('status')).trim() as TaskStatus;
+
+        if (!task) return;
+
+        const updatedTask = { id: task.id, title, description, status };
+        console.log(updatedTask);
+        if (!title) {
+            return;
+        }
+
+        dispatch(updateTask(updatedTask));
+        handleClose();
+    };
+
     return (
-        <form className="task-form" action={handleAddTask}>
+        <form className="task-form" action={task ? handleEditTask : handleAddTask}>
             <div className="task-form__header">
                 <div>
                     <p className="task-form__eyebrow">Nowe zadanie</p>
@@ -43,17 +61,17 @@ const TaskForm = ({ handleClose }: TaskFormProps) => {
             <div className="task-form__fields">
                 <div className="task-form__field">
                     <label htmlFor="task-title">Tytuł zadania</label>
-                    <input id="task-title" name="title" type="text" placeholder="Np. Utworzyć formularz" required autoFocus />
+                    <input id="task-title" defaultValue={task?.title} name="title" type="text" placeholder="Np. Utworzyć formularz" required autoFocus />
                 </div>
 
                 <div className="task-form__field">
                     <label htmlFor="task-description">Opis</label>
-                    <textarea id="task-description" name="description" placeholder="Opisz zadanie..." rows={4} />
+                    <textarea id="task-description" defaultValue={task?.description} name="description" placeholder="Opisz zadanie..." rows={4} />
                 </div>
 
                 <div className="task-form__field">
                     <label htmlFor="task-status">Status</label>
-                    <select id="task-status" name="status" defaultValue="todo">
+                    <select id="task-status" name="status" defaultValue={task?.status ?? 'todo'}>
                         <option value="todo">Do zrobienia</option>
                         <option value="inProgress">W toku</option>
                         <option value="done">Gotowe</option>
@@ -66,7 +84,7 @@ const TaskForm = ({ handleClose }: TaskFormProps) => {
                     Anuluj
                 </button>
                 <button className="task-form__button task-form__button--primary" type="submit">
-                    Dodaj zadanie
+                    {task ? 'Zmień' : 'Dodaj zadanie'}
                 </button>
             </div>
         </form>

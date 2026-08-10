@@ -1,12 +1,13 @@
-import { changeTaskStatus, type Task, type TaskStatus } from '../features/tasks/tasksSlice';
+import { changeTaskStatus, deleteTask, type Task, type TaskStatus } from '../features/tasks/tasksSlice';
 import { useAppDispatch } from '../store/hooks';
 
 import './Taskcard.scss';
 interface TaskCardProps {
     task: Task;
+    onUpdateTask: (task: Task) => void;
 }
 
-const TaskCard = ({ task }: TaskCardProps) => {
+const TaskCard = ({ task, onUpdateTask: handleOnUpdateTask }: TaskCardProps) => {
     const dispatch = useAppDispatch();
 
     const statusId = `task-status-${task.id}`;
@@ -16,6 +17,14 @@ const TaskCard = ({ task }: TaskCardProps) => {
             changeTaskStatus({
                 id: task.id,
                 status: e.target.value as TaskStatus,
+            })
+        );
+    };
+
+    const handleDeleteTask = () => {
+        dispatch(
+            deleteTask({
+                id: task.id,
             })
         );
     };
@@ -31,6 +40,12 @@ const TaskCard = ({ task }: TaskCardProps) => {
                 <option value="inProgress">W toku</option>
                 <option value="done">Gotowe</option>
             </select>
+            <button type="button" onClick={handleDeleteTask}>
+                Usuń
+            </button>
+            <button type="button" onClick={() => handleOnUpdateTask(task)}>
+                Edytuj
+            </button>
             <div className="task-card__footer">
                 <span className="task-card__key">MJ-{task.id}</span>
                 <span className="task-card__avatar" aria-label="Nieprzypisane">
