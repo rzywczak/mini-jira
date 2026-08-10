@@ -6,9 +6,10 @@ interface ColumnProps {
     tasks: Task[];
     title: string;
     status: TaskStatus;
+    onUpdateTask: (task: Task) => void;
 }
 
-const Column = ({ tasks, title, status }: ColumnProps) => {
+const Column = ({ tasks, title, status, onUpdateTask }: ColumnProps) => {
     return (
         <section className={`column column--${status}`}>
             <div className="column__header">
@@ -24,7 +25,7 @@ const Column = ({ tasks, title, status }: ColumnProps) => {
             <ul className="column__tasks">
                 {tasks.map((task) => (
                     <li key={task.id}>
-                        <TaskCard task={task} />
+                        <TaskCard onUpdateTask={onUpdateTask} task={task} />
                     </li>
                 ))}
             </ul>

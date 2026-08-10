@@ -1,4 +1,4 @@
-import type { TaskStatus } from '../features/tasks/tasksSlice';
+import type { Task, TaskStatus } from '../features/tasks/tasksSlice';
 import Column from './Column';
 import { useAppSelector } from '../store/hooks';
 import './Board.scss';
@@ -9,7 +9,11 @@ const columns = [
     { status: 'done', title: 'Gotowe' },
 ] satisfies { status: TaskStatus; title: string }[];
 
-const Board = () => {
+interface BoardProps {
+    onUpdateTask: (task: Task) => void;
+}
+
+const Board = ({ onUpdateTask }: BoardProps) => {
     const tasks = useAppSelector((state) => state.tasks);
 
     return (
@@ -24,7 +28,13 @@ const Board = () => {
 
             <div className="board__columns">
                 {columns.map((column) => (
-                    <Column key={column.status} status={column.status} title={column.title} tasks={tasks.filter((task) => task.status === column.status)} />
+                    <Column
+                        onUpdateTask={onUpdateTask}
+                        key={column.status}
+                        status={column.status}
+                        title={column.title}
+                        tasks={tasks.filter((task) => task.status === column.status)}
+                    />
                 ))}
             </div>
         </section>
