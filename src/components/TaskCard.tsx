@@ -43,8 +43,7 @@ const TaskCard = ({ task, onUpdateTask: handleOnUpdateTask }: TaskCardProps) => 
                         type="button"
                         onClick={() => handleOnUpdateTask(task)}
                         aria-label={`Edytuj zadanie: ${task.title}`}
-                        title="Edytuj zadanie"
-                    >
+                        title="Edytuj zadanie">
                         <svg className="task-card__action-icon" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M4 16.5V20h3.5L18.2 9.3l-3.5-3.5L4 16.5Zm16.7-9.7a1 1 0 0 0 0-1.4l-2.1-2.1a1 1 0 0 0-1.4 0l-1.7 1.7L19 8.5l1.7-1.7Z" />
                         </svg>
@@ -54,8 +53,7 @@ const TaskCard = ({ task, onUpdateTask: handleOnUpdateTask }: TaskCardProps) => 
                         type="button"
                         onClick={handleDeleteTask}
                         aria-label={`Usuń zadanie: ${task.title}`}
-                        title="Usuń zadanie"
-                    >
+                        title="Usuń zadanie">
                         <svg className="task-card__action-icon" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M9 3h6l1 2h4v2H4V5h4l1-2Zm-2 6h10l-.7 11H7.7L7 9Zm3 2v7h2v-7h-2Zm4 0v7h2v-7h-2Z" />
                         </svg>
