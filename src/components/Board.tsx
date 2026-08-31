@@ -40,14 +40,25 @@ const Board = ({ onUpdateTask, searchQuery }: BoardProps) => {
                     <h2 id="board-heading">Tablica zadań</h2>
                     <p>Aktualny stan prac w projekcie</p>
                 </div>
-                <div>
-                    Filtruj
-                    <select name="board-filter" id="board-filter" defaultValue={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+                <div className="board__filter">
+                    <label className="board__filter-label" htmlFor="board-filter">
+                        Filtruj według statusu
+                    </label>
+                    <select
+                        className="board__filter-select"
+                        name="board-filter"
+                        id="board-filter"
+                        defaultValue={statusFilter}
+                        onChange={(e) => setStatusFilter(e.target.value)}>
                         {statusFilters.map((statusFilter) => {
                             const status = statusFilter.status;
                             const title = statusFilter.title;
 
-                            return <option value={status}>{title}</option>;
+                            return (
+                                <option key={status} value={status}>
+                                    {title}
+                                </option>
+                            );
                         })}
                     </select>
                 </div>

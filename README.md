@@ -13,4 +13,4 @@ Built with React, TypeScript, Redux Toolkit, Sass, and Vite.
 
 ## Preview
 
-![alt text](image.png)
+![alt text](image-1.png)
