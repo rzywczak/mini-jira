@@ -23,11 +23,15 @@ const Column = ({ tasks, title, status, onUpdateTask }: ColumnProps) => {
             </div>
 
             <ul className="column__tasks">
-                {tasks.map((task) => (
-                    <li key={task.id}>
-                        <TaskCard onUpdateTask={onUpdateTask} task={task} />
-                    </li>
-                ))}
+                {tasks.length === 0 ? (
+                    <div>Nie znaleziono zadań</div>
+                ) : (
+                    tasks.map((task) => (
+                        <li key={task.id}>
+                            <TaskCard onUpdateTask={onUpdateTask} task={task} />
+                        </li>
+                    ))
+                )}
             </ul>
         </section>
     );

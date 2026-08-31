@@ -11,10 +11,17 @@ const columns = [
 
 interface BoardProps {
     onUpdateTask: (task: Task) => void;
+    searchQuery: string;
 }
 
-const Board = ({ onUpdateTask }: BoardProps) => {
+const Board = ({ onUpdateTask, searchQuery }: BoardProps) => {
     const tasks = useAppSelector((state) => state.tasks);
+
+    const normalizedSearch = searchQuery.trim().toLocaleLowerCase();
+
+    const filteredTasks = tasks.filter(
+        ({ title, description }) => title.trim().toLocaleLowerCase().includes(normalizedSearch) || description.trim().toLocaleLowerCase().includes(normalizedSearch)
+    );
 
     return (
         <section className="board" aria-labelledby="board-heading">
@@ -23,7 +30,7 @@ const Board = ({ onUpdateTask }: BoardProps) => {
                     <h2 id="board-heading">Tablica zadań</h2>
                     <p>Aktualny stan prac w projekcie</p>
                 </div>
-                <span className="board__total">{tasks.length} zadań</span>
+                <span className="board__total">{filteredTasks.length} zadań</span>
             </div>
 
             <div className="board__columns">
@@ -33,7 +40,7 @@ const Board = ({ onUpdateTask }: BoardProps) => {
                         key={column.status}
                         status={column.status}
                         title={column.title}
-                        tasks={tasks.filter((task) => task.status === column.status)}
+                        tasks={filteredTasks.filter((task) => task.status === column.status)}
                     />
                 ))}
             </div>
