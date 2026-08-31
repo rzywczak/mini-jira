@@ -13,6 +13,6 @@ export const setTasks = (tasks: Task[]) => {
     try {
         localStorage.setItem('tasks', JSON.stringify(tasks));
     } catch (error) {
-        console.error('Unable to save in     local storage', error);
+        console.error('Unable to save in local storage', error);
     }
 };
