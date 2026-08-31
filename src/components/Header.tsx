@@ -22,9 +22,19 @@ const Header = ({ onAddTask, isTaskModalOpen, editingTask, onCloseTaskModal, onS
                     <span className="app-header__subtitle">Zarządzanie projektem</span>
                 </div>
             </div>
-            <div>
-                <label htmlFor="search-task">Wyszukaj</label>
-                <input type="search" id="search-task" value={searchQuery} onChange={(e) => onSearchQuery(e.target.value)} />
+            <div className="app-header__search">
+                <label className="app-header__search-label" htmlFor="search-task">
+                    Wyszukaj zadanie
+                </label>
+                <span className="app-header__search-icon" aria-hidden="true" />
+                <input
+                    className="app-header__search-input"
+                    type="search"
+                    id="search-task"
+                    placeholder="Wyszukaj zadanie..."
+                    value={searchQuery}
+                    onChange={(event) => onSearchQuery(event.target.value)}
+                />
             </div>
             <button className="add-task-button" type="button" onClick={onAddTask}>
                 + Dodaj zadanie
