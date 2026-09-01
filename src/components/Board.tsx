@@ -31,7 +31,7 @@ const Board = ({ onUpdateTask, searchQuery }: BoardProps) => {
         return matchSearch && matchStatus;
     });
 
-    const filteredColumns = columns.filter((column) => column.status === statusFilter || statusFilter === 'all');
+    const filteredColumns = statusFilter === 'all' ? columns : columns.filter((column) => column.status === statusFilter);
 
     return (
         <section className="board" aria-labelledby="board-heading">
@@ -44,12 +44,7 @@ const Board = ({ onUpdateTask, searchQuery }: BoardProps) => {
                     <label className="board__filter-label" htmlFor="board-filter">
                         Filtruj według statusu
                     </label>
-                    <select
-                        className="board__filter-select"
-                        name="board-filter"
-                        id="board-filter"
-                        defaultValue={statusFilter}
-                        onChange={(e) => setStatusFilter(e.target.value)}>
+                    <select className="board__filter-select" name="board-filter" id="board-filter" defaultValue={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
                         {statusFilters.map((statusFilter) => {
                             const status = statusFilter.status;
                             const title = statusFilter.title;
