@@ -13,7 +13,7 @@ export interface Task {
     status: TaskStatus;
 }
 
-interface TaskState {
+export interface TaskState {
     tasks: Task[];
 }
 
