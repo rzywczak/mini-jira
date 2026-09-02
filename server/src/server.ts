@@ -1,7 +1,23 @@
 import app from './app.js';
+import { connectDatabase } from './config/database.js';
+import { env, EnvironmentConfigurationError } from './config/env.js';
 
-const PORT = process.env.PORT || 3001;
+const startServer = async (): Promise<void> => {
+    try {
+        await connectDatabase();
 
-app.listen(PORT, () => {
-    console.log(`API works on http://localhost:${PORT}`);
-});
+        app.listen(env.port, () => {
+            console.log(`API is listening on port ${env.port}.`);
+        });
+    } catch (error) {
+        if (error instanceof EnvironmentConfigurationError) {
+            console.error(error.message);
+            process.exit(1);
+        }
+
+        console.error('Failed to connect to MongoDB. The server was not started.');
+        process.exit(1);
+    }
+};
+
+void startServer();
