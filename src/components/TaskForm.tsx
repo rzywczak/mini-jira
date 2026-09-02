@@ -1,7 +1,8 @@
 import { useAppDispatch } from '../store/hooks';
 import { addTask, updateTask } from '../features/tasks/tasksSlice';
-import type { Task, TaskStatus } from '../features/tasks/tasksSlice';
+import type { Task } from '../features/tasks/tasksSlice';
 import './TaskForm.scss';
+import { isTaskStatus } from '../utils/taskGuards';
 
 interface TaskFormProps {
     handleClose: () => void;
@@ -12,16 +13,14 @@ const TaskForm = ({ handleClose, isEditingTask: task }: TaskFormProps) => {
     const dispatch = useAppDispatch();
 
     const handleAddTask = (formData: FormData) => {
+        const status = String(formData.get('status')).trim();
         const title = String(formData.get('title')).trim();
         const description = String(formData.get('description')).trim();
-        const status = String(formData.get('status')).trim() as TaskStatus;
         const id = crypto.randomUUID();
 
-        const newTask = { id, title, description, status };
+        if (!title || !isTaskStatus(status)) return;
 
-        if (!title) {
-            return;
-        }
+        const newTask = { id, title, description, status };
 
         dispatch(addTask(newTask));
         handleClose();
@@ -30,14 +29,11 @@ const TaskForm = ({ handleClose, isEditingTask: task }: TaskFormProps) => {
     const handleEditTask = (formData: FormData) => {
         const title = String(formData.get('title')).trim();
         const description = String(formData.get('description')).trim();
-        const status = String(formData.get('status')).trim() as TaskStatus;
+        const status = String(formData.get('status')).trim();
 
-        if (!task) return;
+        if (!task || !title || !isTaskStatus(status)) return;
 
         const updatedTask = { id: task.id, title, description, status };
-        if (!title) {
-            return;
-        }
 
         dispatch(updateTask(updatedTask));
         handleClose();
