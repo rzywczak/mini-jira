@@ -53,4 +53,4 @@ Component integration tests use a real Redux store rather than mocked Redux hook
 
 ## Preview
 
-![alt text](image-1.png)
+![alt text](image-2.png)
