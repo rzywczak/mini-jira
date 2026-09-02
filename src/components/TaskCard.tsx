@@ -1,7 +1,9 @@
-import { changeTaskStatus, deleteTask, type Task, type TaskStatus } from '../features/tasks/tasksSlice';
+import { useDraggable } from '@dnd-kit/react';
+import { changeTaskStatus, deleteTask, type Task } from '../features/tasks/tasksSlice';
 import { useAppDispatch } from '../store/hooks';
 
 import './Taskcard.scss';
+import { isTaskStatus } from '../utils/taskGuards';
 interface TaskCardProps {
     task: Task;
     onUpdateTask: (task: Task) => void;
@@ -10,13 +12,21 @@ interface TaskCardProps {
 const TaskCard = ({ task, onUpdateTask: handleOnUpdateTask }: TaskCardProps) => {
     const dispatch = useAppDispatch();
 
+    const { ref, handleRef } = useDraggable({
+        id: task.id,
+    });
+
     const statusId = `task-status-${task.id}`;
 
     const handleChangeTaskStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const status = e.target.value;
+
+        if (!isTaskStatus(status)) return;
+
         dispatch(
             changeTaskStatus({
                 id: task.id,
-                status: e.target.value as TaskStatus,
+                status: status,
             })
         );
     };
@@ -34,9 +44,10 @@ const TaskCard = ({ task, onUpdateTask: handleOnUpdateTask }: TaskCardProps) => 
     };
 
     return (
-        <article className="task-card">
+        <article ref={ref} className="task-card">
             <div className="task-card__header">
                 <span className="task-card__type">Zadanie</span>
+
                 <div className="task-card__actions" role="group" aria-label="Akcje zadania">
                     <button
                         className="task-card__action task-card__action--edit"
@@ -56,6 +67,16 @@ const TaskCard = ({ task, onUpdateTask: handleOnUpdateTask }: TaskCardProps) => 
                         title="Usuń zadanie">
                         <svg className="task-card__action-icon" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M9 3h6l1 2h4v2H4V5h4l1-2Zm-2 6h10l-.7 11H7.7L7 9Zm3 2v7h2v-7h-2Zm4 0v7h2v-7h-2Z" />
+                        </svg>
+                    </button>
+                    <button
+                        ref={handleRef}
+                        className="task-card__action task-card__action--drag"
+                        type="button"
+                        aria-label={`Przeciągnij zadanie: ${task.title}`}
+                        title="Przeciągnij zadanie">
+                        <svg className="task-card__action-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M9 5.5A1.5 1.5 0 1 1 6 5.5a1.5 1.5 0 0 1 3 0Zm0 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm9-13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
                         </svg>
                     </button>
                 </div>

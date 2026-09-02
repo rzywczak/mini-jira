@@ -1,8 +1,10 @@
-import type { Task, TaskStatus, StatusFilter } from '../features/tasks/tasksSlice';
+import { type Task, type TaskStatus, type StatusFilter, changeTaskStatus } from '../features/tasks/tasksSlice';
 import Column from './Column';
-import { useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import './Board.scss';
 import { useState } from 'react';
+import { DragDropProvider } from '@dnd-kit/react';
+import { isTaskStatus } from '../utils/taskGuards';
 
 const columns = [
     { status: 'todo', title: 'Do zrobienia' },
@@ -19,6 +21,8 @@ interface BoardProps {
 
 const Board = ({ onUpdateTask, searchQuery }: BoardProps) => {
     const [statusFilter, setStatusFilter] = useState('all');
+
+    const dispatch = useAppDispatch();
 
     const tasks = useAppSelector((state) => state.tasks);
     const normalizedSearch = searchQuery.trim().toLocaleLowerCase();
@@ -60,15 +64,31 @@ const Board = ({ onUpdateTask, searchQuery }: BoardProps) => {
             </div>
 
             <div className="board__columns">
-                {filteredColumns.map((column) => (
-                    <Column
-                        onUpdateTask={onUpdateTask}
-                        key={column.status}
-                        status={column.status}
-                        title={column.title}
-                        tasks={filteredTasks.filter((task) => task.status === column.status)}
-                    />
-                ))}
+                <DragDropProvider
+                    onDragEnd={(event) => {
+                        if (event.canceled) return;
+
+                        const { target, source } = event.operation;
+
+                        if (!source || !target || !isTaskStatus(target.id)) return;
+
+                        dispatch(
+                            changeTaskStatus({
+                                id: String(source.id),
+                                status: target.id,
+                            })
+                        );
+                    }}>
+                    {filteredColumns.map((column) => (
+                        <Column
+                            onUpdateTask={onUpdateTask}
+                            key={column.status}
+                            status={column.status}
+                            title={column.title}
+                            tasks={filteredTasks.filter((task) => task.status === column.status)}
+                        />
+                    ))}
+                </DragDropProvider>
             </div>
         </section>
     );

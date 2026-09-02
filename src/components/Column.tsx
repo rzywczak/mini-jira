@@ -1,6 +1,7 @@
 import type { Task, TaskStatus } from '../features/tasks/tasksSlice';
 import TaskCard from './TaskCard';
 import './Column.scss';
+import { useDroppable } from '@dnd-kit/react';
 
 interface ColumnProps {
     tasks: Task[];
@@ -10,8 +11,12 @@ interface ColumnProps {
 }
 
 const Column = ({ tasks, title, status, onUpdateTask }: ColumnProps) => {
+    const { ref } = useDroppable({
+        id: status,
+    });
+
     return (
-        <section className={`column column--${status}`}>
+        <section ref={ref} className={`column column--${status}`}>
             <div className="column__header">
                 <div className="column__title-wrap">
                     <span className="column__status-dot" aria-hidden="true" />
