@@ -4,6 +4,19 @@ Mega Jira is a lightweight project management application inspired by Jira. It p
 
 The current version runs entirely in the browser and saves tasks in `localStorage`.
 
+## Project Structure
+
+- `client/` — React frontend
+- `backend/` — reserved for the future API
+
+To run the frontend locally:
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
 ## Features
 
 - Create tasks with a title, description, and status
