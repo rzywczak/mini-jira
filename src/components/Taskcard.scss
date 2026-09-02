@@ -69,6 +69,20 @@
       color: #c9372c;
       background: #fff1f0;
     }
+
+    &--drag {
+      cursor: grab;
+      touch-action: none;
+
+      &:hover {
+        color: var(--primary);
+        background: #e9f2ff;
+      }
+
+      &:active {
+        cursor: grabbing;
+      }
+    }
   }
 
   &__action-icon {

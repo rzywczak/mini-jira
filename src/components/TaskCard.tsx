@@ -1,5 +1,5 @@
 import { useDraggable } from '@dnd-kit/react';
-import { changeTaskStatus, deleteTask, type Task, type TaskStatus } from '../features/tasks/tasksSlice';
+import { changeTaskStatus, deleteTask, type Task } from '../features/tasks/tasksSlice';
 import { useAppDispatch } from '../store/hooks';
 
 import './Taskcard.scss';
@@ -69,8 +69,15 @@ const TaskCard = ({ task, onUpdateTask: handleOnUpdateTask }: TaskCardProps) => 
                             <path d="M9 3h6l1 2h4v2H4V5h4l1-2Zm-2 6h10l-.7 11H7.7L7 9Zm3 2v7h2v-7h-2Zm4 0v7h2v-7h-2Z" />
                         </svg>
                     </button>
-                    <button ref={handleRef} type="button" aria-label={`Przeciągnij zadanie: ${task.title}`}>
-                        Przeciągnij
+                    <button
+                        ref={handleRef}
+                        className="task-card__action task-card__action--drag"
+                        type="button"
+                        aria-label={`Przeciągnij zadanie: ${task.title}`}
+                        title="Przeciągnij zadanie">
+                        <svg className="task-card__action-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M9 5.5A1.5 1.5 0 1 1 6 5.5a1.5 1.5 0 0 1 3 0Zm0 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm9-13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+                        </svg>
                     </button>
                 </div>
             </div>
