@@ -1,10 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { loadTasks } from '../../store/tasksStore';
 import type { Task, TaskState, TaskStatus } from './task.types';
 
 const initialState: TaskState = {
-    tasks: loadTasks(),
+    tasks: [],
 };
 
 const taskSlice = createSlice({

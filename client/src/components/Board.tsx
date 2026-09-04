@@ -1,11 +1,10 @@
-import { changeTaskStatus } from '../features/tasks/tasksSlice';
 import type { Task, TaskStatus, StatusFilter } from '../features/tasks/task.types';
 import Column from './Column';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
 import './Board.scss';
 import { useState } from 'react';
 import { DragDropProvider } from '@dnd-kit/react';
 import { isTaskStatus } from '../utils/taskGuards';
+import { useGetTasksQuery, useUpdateTaskMutation } from '../services/tasksApi';
 
 const columns = [
     { status: 'todo', title: 'Do zrobienia' },
@@ -23,9 +22,10 @@ interface BoardProps {
 const Board = ({ onUpdateTask, searchQuery }: BoardProps) => {
     const [statusFilter, setStatusFilter] = useState('all');
 
-    const dispatch = useAppDispatch();
+    const { data: tasks = [] } = useGetTasksQuery();
 
-    const tasks = useAppSelector((state) => state.tasks);
+    const [updateTask] = useUpdateTaskMutation();
+
     const normalizedSearch = searchQuery.trim().toLocaleLowerCase();
 
     const filteredTasks = tasks.filter(({ title, description, status }) => {
@@ -73,12 +73,10 @@ const Board = ({ onUpdateTask, searchQuery }: BoardProps) => {
 
                         if (!source || !target || !isTaskStatus(target.id)) return;
 
-                        dispatch(
-                            changeTaskStatus({
-                                id: String(source.id),
-                                status: target.id,
-                            })
-                        );
+                        updateTask({
+                            id: String(source.id),
+                            status: target.id,
+                        });
                     }}>
                     {filteredColumns.map((column) => (
                         <Column

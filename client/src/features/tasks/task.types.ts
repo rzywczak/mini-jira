@@ -12,3 +12,7 @@ export interface Task {
 export interface TaskState {
     tasks: Task[];
 }
+
+export type CreateTask = Pick<Task, 'title'> & Partial<Pick<Task, 'description' | 'status'>>;
+
+export type UpdateTask = { id: string } & Partial<Pick<Task, 'title' | 'description' | 'status'>>;

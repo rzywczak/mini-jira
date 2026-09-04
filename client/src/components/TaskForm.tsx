@@ -1,8 +1,7 @@
-import { useAppDispatch } from '../store/hooks';
-import { addTask, updateTask } from '../features/tasks/tasksSlice';
 import type { Task } from '../features/tasks/task.types';
 import './TaskForm.scss';
 import { isTaskStatus } from '../utils/taskGuards';
+import { useAddTaskMutation, useUpdateTaskMutation } from '../services/tasksApi';
 
 interface TaskFormProps {
     handleClose: () => void;
@@ -10,20 +9,21 @@ interface TaskFormProps {
 }
 
 const TaskForm = ({ handleClose, isEditingTask: task }: TaskFormProps) => {
-    const dispatch = useAppDispatch();
+    const [addTask] = useAddTaskMutation();
+    const [updateTask] = useUpdateTaskMutation();
 
     const handleAddTask = (formData: FormData) => {
         const status = String(formData.get('status')).trim();
         const title = String(formData.get('title')).trim();
         const description = String(formData.get('description')).trim();
-        const id = crypto.randomUUID();
 
         if (!title || !isTaskStatus(status)) return;
 
-        const newTask = { id, title, description, status };
+        const newTask = { title, description, status };
 
-        dispatch(addTask(newTask));
-        handleClose();
+        addTask(newTask)
+            .unwrap()
+            .then(() => handleClose());
     };
 
     const handleEditTask = (formData: FormData) => {
@@ -35,8 +35,9 @@ const TaskForm = ({ handleClose, isEditingTask: task }: TaskFormProps) => {
 
         const updatedTask = { id: task.id, title, description, status };
 
-        dispatch(updateTask(updatedTask));
-        handleClose();
+        updateTask(updatedTask)
+            .unwrap()
+            .then(() => handleClose());
     };
 
     return (
