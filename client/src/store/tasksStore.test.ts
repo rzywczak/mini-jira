@@ -13,6 +13,7 @@ beforeEach(() => {
     localStorage.clear();
 });
 
+// LEGACY: old feature replaced by storage in database on backend
 describe('Local Storage functions', () => {
     it('saves tasks to localstorage', () => {
         setTasks(mockTasks);
