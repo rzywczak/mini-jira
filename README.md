@@ -17,6 +17,17 @@ npm install
 npm run dev
 ```
 
+To run the API locally, configure `server/.env`, then run:
+
+```bash
+cd server
+npm install
+npm run dev
+```
+
+Interactive API documentation is available at `http://localhost:3001/api/docs`.
+The OpenAPI document is available at `http://localhost:3001/api/docs.json`.
+
 ## Features
 
 - Create tasks with a title, description, and status
