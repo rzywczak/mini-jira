@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import taskReducer, { type Task } from '../features/tasks/tasksSlice';
+import taskReducer from '../features/tasks/tasksSlice';
+import type { Task } from '../features/tasks/task.types';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import TaskForm from './TaskForm';

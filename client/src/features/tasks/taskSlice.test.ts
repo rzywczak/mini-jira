@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import '@testing-library/jest-dom/vitest';
-import type { Task, TaskState } from './tasksSlice';
+import type { Task, TaskState } from './task.types';
 import taskReducer, { addTask, changeTaskStatus, updateTask, deleteTask } from './tasksSlice';
 
 const mockTasks = [

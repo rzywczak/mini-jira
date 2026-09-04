@@ -1,5 +1,6 @@
 import { useDraggable } from '@dnd-kit/react';
-import { changeTaskStatus, deleteTask, type Task } from '../features/tasks/tasksSlice';
+import { changeTaskStatus, deleteTask } from '../features/tasks/tasksSlice';
+import type { Task } from '../features/tasks/task.types';
 import { useAppDispatch } from '../store/hooks';
 
 import './Taskcard.scss';

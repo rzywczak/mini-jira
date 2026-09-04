@@ -1,6 +1,5 @@
 import './App.scss';
-import { type Task } from './features/tasks/tasksSlice';
-// import { useAppDispatch } from './store/hooks';
+import type { Task } from './features/tasks/task.types';
 import Board from './components/Board';
 import Header from './components/Header';
 

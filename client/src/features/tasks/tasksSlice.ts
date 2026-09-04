@@ -1,21 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { loadTasks } from '../../store/tasksStore';
-
-export type TaskStatus = 'todo' | 'inProgress' | 'done';
-
-export type StatusFilter = TaskStatus | 'all';
-
-export interface Task {
-    id: string;
-    title: string;
-    description: string;
-    status: TaskStatus;
-}
-
-export interface TaskState {
-    tasks: Task[];
-}
+import type { Task, TaskState, TaskStatus } from './task.types';
 
 const initialState: TaskState = {
     tasks: loadTasks(),

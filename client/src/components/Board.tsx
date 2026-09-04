@@ -1,4 +1,5 @@
-import { type Task, type TaskStatus, type StatusFilter, changeTaskStatus } from '../features/tasks/tasksSlice';
+import { changeTaskStatus } from '../features/tasks/tasksSlice';
+import type { Task, TaskStatus, StatusFilter } from '../features/tasks/task.types';
 import Column from './Column';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import './Board.scss';

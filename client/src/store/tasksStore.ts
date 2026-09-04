@@ -1,4 +1,4 @@
-import type { Task } from '../features/tasks/tasksSlice';
+import type { Task } from '../features/tasks/task.types';
 
 export const loadTasks = () => {
     try {

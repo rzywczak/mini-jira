@@ -1,6 +1,6 @@
 import { useAppDispatch } from '../store/hooks';
 import { addTask, updateTask } from '../features/tasks/tasksSlice';
-import type { Task } from '../features/tasks/tasksSlice';
+import type { Task } from '../features/tasks/task.types';
 import './TaskForm.scss';
 import { isTaskStatus } from '../utils/taskGuards';
 
