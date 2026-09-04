@@ -6,21 +6,30 @@ import { Provider } from 'react-redux';
 import { describe, expect, it, vi, afterEach } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import Board from './Board';
+import { tasksApi } from '../services/tasksApi';
 
+// TODO: rewrite all tests to be compatible with RTK Query and MSW
 describe('Board', () => {
     afterEach(() => {
         vi.restoreAllMocks();
     });
 
     it('deletes task', async () => {
+        // const store = configureStore({
+        //     reducer: taskReducer,
+        //     preloadedState: {
+        //         tasks: [
+        //             { id: '1', title: 'Task 1', status: 'todo', description: 'task 1' },
+        //             { id: '2', title: 'Task 2', status: 'todo', description: 'task 2' },
+        //         ],
+        //     },
+        // });
+
         const store = configureStore({
-            reducer: taskReducer,
-            preloadedState: {
-                tasks: [
-                    { id: '1', title: 'Task 1', status: 'todo', description: 'task 1' },
-                    { id: '2', title: 'Task 2', status: 'todo', description: 'task 2' },
-                ],
+            reducer: {
+                [tasksApi.reducerPath]: tasksApi.reducer,
             },
+            middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(tasksApi.middleware),
         });
 
         const user = userEvent.setup();

@@ -1,16 +1,17 @@
 import { useDraggable } from '@dnd-kit/react';
-import { changeTaskStatus, deleteTask, type Task } from '../features/tasks/tasksSlice';
-import { useAppDispatch } from '../store/hooks';
+import type { Task } from '../features/tasks/task.types';
 
 import './Taskcard.scss';
 import { isTaskStatus } from '../utils/taskGuards';
+import { useDeleteTaskMutation, useUpdateTaskMutation } from '../services/tasksApi';
 interface TaskCardProps {
     task: Task;
     onUpdateTask: (task: Task) => void;
 }
 
 const TaskCard = ({ task, onUpdateTask: handleOnUpdateTask }: TaskCardProps) => {
-    const dispatch = useAppDispatch();
+    const [deleteTask] = useDeleteTaskMutation();
+    const [updateTask] = useUpdateTaskMutation();
 
     const { ref, handleRef } = useDraggable({
         id: task.id,
@@ -23,24 +24,17 @@ const TaskCard = ({ task, onUpdateTask: handleOnUpdateTask }: TaskCardProps) => 
 
         if (!isTaskStatus(status)) return;
 
-        dispatch(
-            changeTaskStatus({
-                id: task.id,
-                status: status,
-            })
-        );
+        updateTask({
+            id: task.id,
+            status: status,
+        });
     };
 
     const handleDeleteTask = () => {
         if (!window.confirm(`Czy usunąć zadanie „${task.title}”?`)) {
             return;
         }
-
-        dispatch(
-            deleteTask({
-                id: task.id,
-            })
-        );
+        deleteTask(task.id);
     };
 
     return (

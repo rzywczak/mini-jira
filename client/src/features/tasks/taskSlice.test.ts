@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import '@testing-library/jest-dom/vitest';
-import type { Task, TaskState } from './tasksSlice';
+import type { Task, TaskState } from './task.types';
 import taskReducer, { addTask, changeTaskStatus, updateTask, deleteTask } from './tasksSlice';
 
 const mockTasks = [
@@ -56,31 +56,3 @@ describe('task slice reducers', () => {
         expect(task).toEqual({ id: '3', title: 'Task 33333', status: 'done', description: 'modified description' });
     });
 });
-
-// TODO: start to test components f,e
-
-// const mockUpdateTask = vi.fn();
-
-// const column = { status: 'todo', title: 'Do zrobienia' } satisfies { status: TaskStatus; title: string };
-
-// describe('countTask', () => {
-//     it('count amount of tasks', () => {
-//         render(<Column tasks={mockTasks} status={column.status} title={column.title} onUpdateTask={mockUpdateTask} />);
-
-//         expect(screen.getByLabelText('3 zadań')).toBeInTheDocument();
-//     });
-// });
-
-// test('otwiera edycję po kliknięciu zadania', async () => {
-//   const user = userEvent.setup();
-
-//   render(<TaskCard task={mockTask} />);
-
-//   await user.click(
-//     screen.getByText('Nauczyć się testów')
-//   );
-
-//   expect(
-//     screen.getByRole('dialog')
-//   ).toBeInTheDocument();
-// });

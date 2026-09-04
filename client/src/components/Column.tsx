@@ -1,4 +1,4 @@
-import type { Task, TaskStatus } from '../features/tasks/tasksSlice';
+import type { Task, TaskStatus } from '../features/tasks/task.types';
 import TaskCard from './TaskCard';
 import './Column.scss';
 import { useDroppable } from '@dnd-kit/react';

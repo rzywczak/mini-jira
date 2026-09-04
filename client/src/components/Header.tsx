@@ -1,5 +1,5 @@
 import TaskModal from './TaskModal';
-import type { Task } from '../features/tasks/tasksSlice';
+import type { Task } from '../features/tasks/task.types';
 
 type Props = {
     onAddTask: () => void;

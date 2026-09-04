@@ -1,5 +1,6 @@
-import type { Task } from '../features/tasks/tasksSlice';
+import type { Task } from '../features/tasks/task.types';
 
+// LEGACY: old feature replaced by storage in database on backend
 export const loadTasks = () => {
     try {
         const savedTasks = localStorage.getItem('tasks');
@@ -9,6 +10,7 @@ export const loadTasks = () => {
     }
 };
 
+// LEGACY: old feature replaced by storage in database on backend
 export const setTasks = (tasks: Task[]) => {
     try {
         localStorage.setItem('tasks', JSON.stringify(tasks));

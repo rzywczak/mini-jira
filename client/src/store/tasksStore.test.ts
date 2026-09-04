@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import '@testing-library/jest-dom/vitest';
 import { loadTasks, setTasks } from './tasksStore';
-import type { Task } from '../features/tasks/tasksSlice';
+import type { Task } from '../features/tasks/task.types';
 
 const mockTasks = [
     { id: '1', title: 'Task 1', status: 'todo', description: 'task 1' },
@@ -13,6 +13,7 @@ beforeEach(() => {
     localStorage.clear();
 });
 
+// LEGACY: old feature replaced by storage in database on backend
 describe('Local Storage functions', () => {
     it('saves tasks to localstorage', () => {
         setTasks(mockTasks);
