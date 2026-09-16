@@ -2,6 +2,8 @@ import type { Task, TaskStatus } from '../features/tasks/task.types';
 import TaskCard from './TaskCard';
 import './Column.scss';
 import { useDroppable } from '@dnd-kit/react';
+import { useVirtualizer } from '@tanstack/react-virtual';
+import { useRef } from 'react';
 
 interface ColumnProps {
     tasks: Task[];
@@ -15,6 +17,17 @@ const Column = ({ tasks, title, status, onUpdateTask }: ColumnProps) => {
         id: status,
     });
 
+    const parentRef = useRef(null);
+
+    const taskVirtualizer = useVirtualizer({
+        count: tasks.length,
+        getScrollElement: () => parentRef.current,
+        estimateSize: () => 230,
+        getItemKey: (index) => tasks[index].id,
+        gap: 10,
+        overscan: 3,
+    });
+
     return (
         <section ref={ref} className={`column column--${status}`}>
             <div className="column__header">
@@ -26,18 +39,34 @@ const Column = ({ tasks, title, status, onUpdateTask }: ColumnProps) => {
                     {tasks.length}
                 </span>
             </div>
+            <div ref={parentRef} className="column__tasks-scroll">
+                <ul
+                    className="column__tasks "
+                    style={{
+                        height: `${taskVirtualizer.getTotalSize()}px`,
+                    }}>
+                    {tasks.length === 0 ? (
+                        <li>Nie znaleziono zadań</li>
+                    ) : (
+                        taskVirtualizer.getVirtualItems().map((virtualRow) => {
+                            const task = tasks[virtualRow.index];
 
-            <ul className="column__tasks">
-                {tasks.length === 0 ? (
-                    <div>Nie znaleziono zadań</div>
-                ) : (
-                    tasks.map((task) => (
-                        <li key={task.id}>
-                            <TaskCard onUpdateTask={onUpdateTask} task={task} />
-                        </li>
-                    ))
-                )}
-            </ul>
+                            return (
+                                <li
+                                    key={task.id}
+                                    data-index={virtualRow.index}
+                                    ref={taskVirtualizer.measureElement}
+                                    className="column__task"
+                                    style={{
+                                        transform: `translateY(${virtualRow.start}px)`,
+                                    }}>
+                                    <TaskCard onUpdateTask={onUpdateTask} task={task} />
+                                </li>
+                            );
+                        })
+                    )}
+                </ul>
+            </div>
         </section>
     );
 };
