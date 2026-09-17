@@ -1,56 +1,65 @@
-import { configureStore } from '@reduxjs/toolkit';
-import taskReducer from '../features/tasks/tasksSlice';
-import { render, screen } from '@testing-library/react';
-import { Provider } from 'react-redux';
-
+import { screen, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi, afterEach } from 'vitest';
 import userEvent from '@testing-library/user-event';
-import Board from './Board';
-import { tasksApi } from '../services/tasksApi';
+import { http, HttpResponse } from 'msw';
 
-// TODO: rewrite all tests to be compatible with RTK Query and MSW
+import Board from './Board';
+import { server } from '../tests/server';
+import { renderWithProviders } from '../tests/renderWithProviders';
+import { mockTasks } from '../tests/fixtures/tasks';
+
+vi.mock('@tanstack/react-virtual', () => ({
+    useVirtualizer: ({ count, getItemKey }: { count: number; getItemKey: (index: number) => string }) => ({
+        getTotalSize: () => count * 230,
+        getVirtualItems: () =>
+            Array.from({ length: count }, (_, index) => ({
+                index,
+                key: getItemKey(index),
+                start: index * 230,
+            })),
+        measureElement: vi.fn(),
+    }),
+}));
+
 describe('Board', () => {
     afterEach(() => {
         vi.restoreAllMocks();
     });
 
     it('deletes task', async () => {
-        // const store = configureStore({
-        //     reducer: taskReducer,
-        //     preloadedState: {
-        //         tasks: [
-        //             { id: '1', title: 'Task 1', status: 'todo', description: 'task 1' },
-        //             { id: '2', title: 'Task 2', status: 'todo', description: 'task 2' },
-        //         ],
-        //     },
-        // });
+        let tasks = [...mockTasks];
+        const deleteTask = vi.fn();
 
-        const store = configureStore({
-            reducer: {
-                [tasksApi.reducerPath]: tasksApi.reducer,
-            },
-            middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(tasksApi.middleware),
-        });
+        server.use(
+            http.get('http://localhost:3001/api/tasks', () => {
+                return HttpResponse.json(tasks);
+            }),
+            http.delete('http://localhost:3001/api/tasks/:id', ({ params }) => {
+                const id = String(params.id);
 
-        const user = userEvent.setup();
+                deleteTask(id);
+                tasks = tasks.filter((task) => task.id !== id);
 
-        render(
-            <Provider store={store}>
-                <Board onUpdateTask={vi.fn()} searchQuery="" />
-            </Provider>
+                return new HttpResponse(null, { status: 204 });
+            })
         );
 
+        const user = userEvent.setup();
         vi.spyOn(window, 'confirm').mockReturnValue(true);
 
-        expect(screen.getByText('Task 1', { exact: true })).toBeVisible();
-        expect(screen.getByText('Task 2', { exact: true })).toBeVisible();
+        renderWithProviders(<Board onUpdateTask={vi.fn()} searchQuery="" />);
+
+        expect(await screen.findByText('Task 1', { exact: true })).toBeVisible();
+        expect(await screen.findByText('Task 2', { exact: true })).toBeVisible();
 
         await user.click(screen.getByRole('button', { name: /Usuń zadanie: Task 1/i }));
 
-        const tasks = store.getState().tasks;
+        await waitFor(() => {
+            expect(screen.queryByText('Task 1', { exact: true })).not.toBeInTheDocument();
+        });
 
         expect(screen.getByText('Task 2', { exact: true })).toBeVisible();
-        expect(screen.queryByText('Task 1', { exact: true })).not.toBeInTheDocument();
-        expect(tasks).toEqual([{ id: '2', title: 'Task 2', status: 'todo', description: 'task 2' }]);
+        expect(deleteTask).toHaveBeenCalledOnce();
+        expect(deleteTask).toHaveBeenCalledWith('1');
     });
 });

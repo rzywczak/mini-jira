@@ -3,7 +3,7 @@ import type { CreateTask, Task, UpdateTask } from '../features/tasks/task.types'
 
 export const tasksApi = createApi({
     reducerPath: 'taskApi',
-    baseQuery: fetchBaseQuery({ baseUrl: '/api/' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/api/' }),
     tagTypes: ['Task'],
     endpoints: (builder) => ({
         getTasks: builder.query<Task[], void>({
