@@ -1,5 +1,5 @@
-import type { Task, TaskStatus } from '../features/tasks/task.types';
-import TaskCard from './TaskCard';
+import type { Task, TaskStatus } from '../../features/tasks/task.types';
+import TaskCard from '../TaskCard/TaskCard';
 import './Column.scss';
 import { useDroppable } from '@dnd-kit/react';
 import { useVirtualizer } from '@tanstack/react-virtual';

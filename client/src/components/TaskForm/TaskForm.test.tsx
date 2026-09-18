@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import taskReducer from '../features/tasks/tasksSlice';
-import type { CreateTask, Task } from '../features/tasks/task.types';
+import taskReducer from '../../features/tasks/tasksSlice';
+import type { CreateTask, Task } from '../../features/tasks/task.types';
 import { render, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import TaskForm from './TaskForm';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
-import { renderWithProviders } from '../tests/renderWithProviders';
-import { server } from '../tests/server';
+import { renderWithProviders } from '../../tests/renderWithProviders';
+import { server } from '../../tests/server';
 import { http, HttpResponse } from 'msw';
 
 describe('TaskForm', () => {

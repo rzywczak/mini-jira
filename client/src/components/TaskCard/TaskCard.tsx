@@ -1,9 +1,9 @@
 import { useDraggable } from '@dnd-kit/react';
-import type { Task } from '../features/tasks/task.types';
+import type { Task } from '../../features/tasks/task.types';
 
-import './Taskcard.scss';
-import { isTaskStatus } from '../utils/taskGuards';
-import { useDeleteTaskMutation, useUpdateTaskMutation } from '../services/tasksApi';
+import './TaskCard.scss';
+import { isTaskStatus } from '../../utils/taskGuards';
+import { useDeleteTaskMutation, useUpdateTaskMutation } from '../../services/tasksApi';
 interface TaskCardProps {
     task: Task;
     onUpdateTask: (task: Task) => void;

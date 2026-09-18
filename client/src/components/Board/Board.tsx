@@ -1,10 +1,10 @@
-import type { Task, TaskStatus, StatusFilter } from '../features/tasks/task.types';
-import Column from './Column';
+import type { Task, TaskStatus, StatusFilter } from '../../features/tasks/task.types';
+import Column from '../Column/Column';
 import './Board.scss';
 import { useState } from 'react';
 import { DragDropProvider } from '@dnd-kit/react';
-import { isTaskStatus } from '../utils/taskGuards';
-import { useGetTasksQuery, useUpdateTaskMutation } from '../services/tasksApi';
+import { isTaskStatus } from '../../utils/taskGuards';
+import { useGetTasksQuery, useUpdateTaskMutation } from '../../services/tasksApi';
 
 const columns = [
     { status: 'todo', title: 'Do zrobienia' },

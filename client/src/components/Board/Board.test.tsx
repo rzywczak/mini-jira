@@ -4,9 +4,9 @@ import userEvent from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
 
 import Board from './Board';
-import { server } from '../tests/server';
-import { renderWithProviders } from '../tests/renderWithProviders';
-import { mockTasks } from '../tests/fixtures/tasks';
+import { server } from '../../tests/server';
+import { renderWithProviders } from '../../tests/renderWithProviders';
+import { mockTasks } from '../../tests/fixtures/tasks';
 
 vi.mock('@tanstack/react-virtual', () => ({
     useVirtualizer: ({ count, getItemKey }: { count: number; getItemKey: (index: number) => string }) => ({

@@ -1,7 +1,7 @@
-import type { Task } from '../features/tasks/task.types';
+import type { Task } from '../../features/tasks/task.types';
 import './TaskForm.scss';
-import { isTaskStatus } from '../utils/taskGuards';
-import { useAddTaskMutation, useUpdateTaskMutation } from '../services/tasksApi';
+import { isTaskStatus } from '../../utils/taskGuards';
+import { useAddTaskMutation, useUpdateTaskMutation } from '../../services/tasksApi';
 
 interface TaskFormProps {
     handleClose: () => void;
