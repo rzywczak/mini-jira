@@ -1,7 +1,7 @@
 import './App.scss';
 import type { Task } from './features/tasks/task.types';
-import Board from './components/Board';
-import Header from './components/Header';
+import Board from './components/Board/Board';
+import Header from './components/Header/Header';
 
 import { useState } from 'react';
 

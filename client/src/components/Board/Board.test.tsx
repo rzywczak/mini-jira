@@ -4,9 +4,9 @@ import userEvent from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
 
 import Board from './Board';
-import { server } from '../tests/server';
-import { renderWithProviders } from '../tests/renderWithProviders';
-import { mockTasks } from '../tests/fixtures/tasks';
+import { server } from '../../tests/server';
+import { renderWithProviders } from '../../tests/renderWithProviders';
+import { mockTasks } from '../../tests/fixtures/tasks';
 
 vi.mock('@tanstack/react-virtual', () => ({
     useVirtualizer: ({ count, getItemKey }: { count: number; getItemKey: (index: number) => string }) => ({
@@ -45,10 +45,10 @@ describe('Board', () => {
         const deleteTask = vi.fn();
 
         server.use(
-            http.get('http://localhost:3001/api/tasks', () => {
+            http.get('*/api/tasks', () => {
                 return HttpResponse.json(tasks);
             }),
-            http.delete('http://localhost:3001/api/tasks/:id', ({ params }) => {
+            http.delete('*/api/tasks/:id', ({ params }) => {
                 const id = String(params.id);
 
                 deleteTask(id);

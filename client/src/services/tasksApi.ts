@@ -1,9 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { CreateTask, Task, UpdateTask } from '../features/tasks/task.types';
 
+const apiBaseUrl = new URL('/api/', globalThis.location.origin).toString();
+
 export const tasksApi = createApi({
     reducerPath: 'taskApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/api/' }),
+    baseQuery: fetchBaseQuery({ baseUrl: apiBaseUrl }),
     tagTypes: ['Task'],
     endpoints: (builder) => ({
         getTasks: builder.query<Task[], void>({

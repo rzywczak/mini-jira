@@ -1,6 +1,6 @@
-import Modal from './Modal';
-import TaskForm from './TaskForm';
-import type { Task } from '../features/tasks/task.types';
+import Modal from '../Modal/Modal';
+import TaskForm from '../TaskForm/TaskForm';
+import type { Task } from '../../features/tasks/task.types';
 import './TaskModal.scss';
 
 interface TaskModalProps {

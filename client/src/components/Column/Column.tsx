@@ -1,5 +1,5 @@
-import type { Task, TaskStatus } from '../features/tasks/task.types';
-import TaskCard from './TaskCard';
+import type { Task, TaskStatus } from '../../features/tasks/task.types';
+import TaskCard from '../TaskCard/TaskCard';
 import './Column.scss';
 import { useDroppable } from '@dnd-kit/react';
 import { useVirtualizer } from '@tanstack/react-virtual';
@@ -22,7 +22,7 @@ const Column = ({ tasks, title, status, onUpdateTask }: ColumnProps) => {
     const taskVirtualizer = useVirtualizer({
         count: tasks.length,
         getScrollElement: () => parentRef.current,
-        estimateSize: () => 230,
+        estimateSize: () => 270,
         getItemKey: (index) => tasks[index].id,
         gap: 10,
         overscan: 3,

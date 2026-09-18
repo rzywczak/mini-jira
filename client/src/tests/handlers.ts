@@ -8,10 +8,10 @@ const isTaskStatus = (value: unknown): value is TaskStatus =>
     typeof value === 'string' && taskStatuses.some((status) => status === value);
 
 export const handlers = [
-    http.get('http://localhost:3001/api/tasks', () => {
+    http.get('*/api/tasks', () => {
         return HttpResponse.json(mockTasks);
     }),
-    http.delete('http://localhost:3001/api/tasks/:id', ({ params }) => {
+    http.delete('*/api/tasks/:id', ({ params }) => {
         const id = String(params.id);
 
         const taskExists = mockTasks.some((task) => task.id === id);
@@ -25,7 +25,7 @@ export const handlers = [
             message: 'Task deleted',
         });
     }),
-    http.post('http://localhost:3001/api/tasks', async ({ request }) => {
+    http.post('*/api/tasks', async ({ request }) => {
         const body: unknown = await request.json();
 
         if (typeof body !== 'object' || body === null || Array.isArray(body)) {

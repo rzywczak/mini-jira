@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import taskReducer from '../features/tasks/tasksSlice';
-import type { CreateTask, Task } from '../features/tasks/task.types';
+import taskReducer from '../../features/tasks/tasksSlice';
+import type { CreateTask, Task } from '../../features/tasks/task.types';
 import { render, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import TaskForm from './TaskForm';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
-import { renderWithProviders } from '../tests/renderWithProviders';
-import { server } from '../tests/server';
+import { renderWithProviders } from '../../tests/renderWithProviders';
+import { server } from '../../tests/server';
 import { http, HttpResponse } from 'msw';
 
 describe('TaskForm', () => {
@@ -33,7 +33,7 @@ describe('TaskForm', () => {
         const createTask = vi.fn();
 
         server.use(
-            http.post('http://localhost:3001/api/tasks', async ({ request }) => {
+            http.post('*/api/tasks', async ({ request }) => {
                 const body = (await request.json()) as CreateTask;
 
                 createTask(body);
