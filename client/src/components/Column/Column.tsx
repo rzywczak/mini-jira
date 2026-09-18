@@ -22,7 +22,7 @@ const Column = ({ tasks, title, status, onUpdateTask }: ColumnProps) => {
     const taskVirtualizer = useVirtualizer({
         count: tasks.length,
         getScrollElement: () => parentRef.current,
-        estimateSize: () => 230,
+        estimateSize: () => 270,
         getItemKey: (index) => tasks[index].id,
         gap: 10,
         overscan: 3,
