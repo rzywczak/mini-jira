@@ -22,6 +22,20 @@ vi.mock('@tanstack/react-virtual', () => ({
 }));
 
 describe('Board', () => {
+    /*
+     * TODO:
+     * it('renders tasks in columns matching their statuses')
+     * it('shows an empty state when the API returns no tasks')
+     * it('filters tasks by title using the search query')
+     * it('filters tasks by description using the search query')
+     * it('matches the search query case-insensitively')
+     * it('shows only the selected status column')
+     * it('calls onUpdateTask with the selected task when edit is clicked')
+     * it('does not delete a task when the confirmation is cancelled')
+     * it('updates a task status when a different status is selected')
+     * it('keeps the remaining tasks visible after deleting one task')
+     */
+
     afterEach(() => {
         vi.restoreAllMocks();
     });
