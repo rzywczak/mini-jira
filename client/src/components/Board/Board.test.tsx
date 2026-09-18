@@ -45,10 +45,10 @@ describe('Board', () => {
         const deleteTask = vi.fn();
 
         server.use(
-            http.get('http://localhost:3001/api/tasks', () => {
+            http.get('*/api/tasks', () => {
                 return HttpResponse.json(tasks);
             }),
-            http.delete('http://localhost:3001/api/tasks/:id', ({ params }) => {
+            http.delete('*/api/tasks/:id', ({ params }) => {
                 const id = String(params.id);
 
                 deleteTask(id);

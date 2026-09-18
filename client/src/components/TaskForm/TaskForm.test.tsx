@@ -33,7 +33,7 @@ describe('TaskForm', () => {
         const createTask = vi.fn();
 
         server.use(
-            http.post('http://localhost:3001/api/tasks', async ({ request }) => {
+            http.post('*/api/tasks', async ({ request }) => {
                 const body = (await request.json()) as CreateTask;
 
                 createTask(body);
