@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, within } from '@testing-library/react';
 import { describe, expect, it, vi, afterEach } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
@@ -25,8 +25,8 @@ describe('Board', () => {
     /*
      * TODO:
      * it('renders tasks in columns matching their statuses')
-     * it('shows an empty state when the API returns no tasks')
      * it('filters tasks by title using the search query')
+     * it('shows an empty state when the API returns no tasks')
      * it('filters tasks by description using the search query')
      * it('matches the search query case-insensitively')
      * it('shows only the selected status column')
@@ -76,4 +76,29 @@ describe('Board', () => {
         expect(deleteTask).toHaveBeenCalledOnce();
         expect(deleteTask).toHaveBeenCalledWith('1');
     });
+
+    it('renders tasks in columns matching their statuses', async () => {
+        const tasks = [...mockTasks];
+
+        server.use(
+            http.get('*/api/tasks', () => {
+                return HttpResponse.json(tasks);
+            })
+        );
+        renderWithProviders(<Board onUpdateTask={vi.fn()} searchQuery="" />);
+
+        const todoColumn = screen.getByRole('region', {
+            name: /do zrobienia/i,
+        });
+
+        const doneColumn = screen.getByRole('region', {
+            name: /gotowe/i,
+        });
+
+        expect(await within(todoColumn).findByText('Task 1', { exact: true })).toBeVisible();
+        // screen.debug(doneColumn);
+        expect(await within(doneColumn).findByText('Task 2', { exact: true })).toBeVisible();
+    });
+
+    it('filters tasks by title using the search query', async () => {});
 });
