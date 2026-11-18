@@ -29,11 +29,11 @@ const Column = ({ tasks, title, status, onUpdateTask }: ColumnProps) => {
     });
 
     return (
-        <section ref={ref} className={`column column--${status}`}>
+        <section ref={ref} className={`column column--${status}`} aria-labelledby={status}>
             <div className="column__header">
                 <div className="column__title-wrap">
                     <span className="column__status-dot" aria-hidden="true" />
-                    <h3>{title}</h3>
+                    <h3 id={status}>{title}</h3>
                 </div>
                 <span className="column__count" aria-label={`${tasks.length} zadań`}>
                     {tasks.length}
