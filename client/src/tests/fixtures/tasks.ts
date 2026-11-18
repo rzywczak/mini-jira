@@ -13,4 +13,10 @@ export const mockTasks = [
         description: 'Task description',
         status: 'done',
     },
+    {
+        id: '44',
+        title: 'Task crazy',
+        description: '',
+        status: 'inProgress',
+    },
 ] satisfies Task[];
